@@ -32,17 +32,19 @@ pipeline {
             }
         }
 
-        stage('Push Image to Docker Hub') {
-            when {
-                expression { return currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-            }
-            steps {
-                withDockerRegistry([credentialsId: DOCKER_CREDENTIALS_ID, url: '']) {
-                    bat "docker login -u your-dockerhub-username -p your-password"
-                    bat "docker push %DOCKER_IMAGE%"
-                }
+       stage('Push Image to Docker Hub') {
+    when {
+        expression { return currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+    }
+    steps {
+        withDockerRegistry([credentialsId: DOCKER_CREDENTIALS_ID, url: '']) {
+            script {
+                bat "docker push %DOCKER_IMAGE%"
             }
         }
+    }
+}
+
 
         stage('Deploy Application') {
             steps {
