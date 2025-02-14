@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('Deploy Application’) {
+        stage('Deploy Application') {
             steps {
                 bat "docker-compose up -d --force-recreate"
             }
